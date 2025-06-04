@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 
 const GeminiContext = createContext();
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API});
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API });
 
 
 export const GeminiProvider = ({ children }) => {
