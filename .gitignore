@@ -25,3 +25,4 @@ env
 *.sw?
 
 .env
+.env.local
