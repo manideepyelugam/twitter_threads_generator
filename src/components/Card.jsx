@@ -10,8 +10,8 @@ const Card = ({ content }) => {
       setSelectedContent(content)
   };
 
-  if (!content || !Array.isArray(content)) {
-    return <p className="text-gray-500">No content available</p>;
+  if (!content || !Array.isArray(content) || content.length < 2 || typeof content[0] !== 'string' || typeof content[1] !== 'string') {
+    return <p className="text-gray-500">Invalid content</p>;
   }
 
   return (

@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState } from "react";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const GeminiContext = createContext();
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API });
+const ai = new GoogleGenerativeAI(import.meta.env.VITE_API);
 
 
 export const GeminiProvider = ({ children }) => {
@@ -34,10 +34,12 @@ Each thread should:
 - Start with a hook.
 - Be informative, engaging, and under 280 characters per tweet.
 
-Return your response as a **valid JSON object** like:
- [ "tweet1", "tweet2", "tweet3" ],
-  in a array format.
-  
+Return your response as a **valid JSON array of arrays** like:
+[
+  ["thread1_tweet1", "thread1_tweet2", "thread1_tweet3", "thread1_tweet4", "thread1_tweet5"],
+  ["thread2_tweet1", "thread2_tweet2", "thread2_tweet3", "thread2_tweet4", "thread2_tweet5"],
+  ["thread3_tweet1", "thread3_tweet2", "thread3_tweet3", "thread3_tweet4", "thread3_tweet5"]
+]
 
 **Do NOT include any extra explanation, formatting, or triple backticks. Just return the raw JSON.**
 `;
@@ -45,15 +47,14 @@ Return your response as a **valid JSON object** like:
 
 
 
-const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: `${fullPrompt}`,
-  });
+const model = ai.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+const response = await model.generateContent(fullPrompt);
 
 
   
    
-     const text = response.candidates[0].content.parts[0].text;
+     const text = response.response.text();
      
 
      function extractJsonFromGeminiOutput(text) {
